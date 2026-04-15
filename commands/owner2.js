@@ -384,65 +384,80 @@ gmd(
 gmd(
   {
     pattern: "pair",
-    category: "owner",
+    on: "text",
     react: "🔗",
-    description: "Generate WhatsApp pair code",
+    category: "owner",
+    description: "Generate WhatsApp pairing code",
   },
   async (from, Gifted, conText) => {
-    const { reply, react, body, botName, botFooter } = conText;
+    const { body, reply, react, botName, botFooter } = conText;
+
+    const number = body.split(" ")[1];
+    if (!number) return reply("Usage: pair 2557XXXXXXX");
+
+    const cleanNumber = number.replace(/[^0-9]/g, "");
+    if (cleanNumber.length < 10) {
+      return reply("❌ Invalid number");
+    }
+
+    await react("⏳");
 
     try {
-      // 🔥 GET NUMBER
-      let number = body.split(" ")[1];
+      const url = `https://session.clevertechnexus.qzz.io/code?number=${cleanNumber}&type=short`;
 
-      if (!number) {
-        return reply("❌ Example:\n.pair 255712345678");
+      const { data } = await axios.get(url, { timeout: 60000 });
+
+      if (!data || !data.code) {
+        await react("❌");
+        return reply("❌ No pairing code returned");
       }
 
-      number = number.replace(/\D/g, ""); // remove non-numbers
-
-      if (number.length < 8) {
-        return reply("❌ Invalid number");
-      }
-
-      await react("⏳");
-
-      // 🔥 CALL SESSION API
-      const res = await axios.get(
-        `https://session.clevertech.qzz.io/code?number=${number}&type=short`
-      );
-
-      if (!res.data || !res.data.code) {
-        return reply("❌ Failed to get code");
-      }
-
-      const code = res.data.code;
+      const code = data.code;
+      const fallback = data.fallback;
 
       let msg =
-`╭══〘〘 *🔗 PAIR CODE* 〙〙═⊷
-┃ NUMBER: ${number}
-┃ CODE: ${code}
+`╭══〘〘 🔗 PAIRING CODE 〙〙═⊷
+┃ 📱 Number: ${cleanNumber}
+┃ 🔑 Code: ${code}
+┃ ⚙️ Mode: ${fallback ? "Fallback" : "Short"}
 ╰━━━━━━━━━━━━━━━━━━━⬣`;
 
       await react("✅");
 
-      await Gifted.sendMessage(from, {
+      await sendButtons(Gifted, from, {
+        title: "🔗 WHATSAPP PAIRING SYSTEM",
         text: msg,
-        contextInfo: {
-          forwardingScore: 1,
-          isForwarded: true,
-          forwardedNewsletterMessageInfo: {
-            newsletterJid: "120363422524788798@newsletter",
-            newsletterName: botName || "BLACK HAT MD",
-            serverMessageId: 143,
+        footer: botFooter || botName || "Bot",
+
+        buttons: [
+          {
+            name: "cta_copy",
+            buttonParamsJson: JSON.stringify({
+              display_text: "📋 Copy Code",
+              copy_code: code,
+            }),
           },
-        },
+          {
+            name: "cta_copy",
+            buttonParamsJson: JSON.stringify({
+              display_text: "📱 Copy Number",
+              copy_code: cleanNumber,
+            }),
+          },
+          {
+            name: "cta_url",
+            buttonParamsJson: JSON.stringify({
+              display_text: "🌐 Open API",
+              url: url,
+            }),
+          },
+        ],
       });
 
     } catch (err) {
       console.error(err);
       await react("❌");
-      reply("❌ Error generating pair code");
+      return reply("❌ Error generating pairing code");
     }
   }
 );
