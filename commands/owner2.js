@@ -9,6 +9,7 @@ const { S_WHATSAPP_NET } = require("gifted-baileys");
 const { Jimp } = require("jimp");
 const path = require("path");
 const moment = require("moment-timezone");
+const { sendButtons } = require("gifted-btns");
 const {
   groupCache,
   getGroupMetadata,
@@ -281,6 +282,121 @@ gmd(
       console.error(err);
       await react("❌");
       reply("❌ Failed to generate wasted image");
+    }
+  }
+);
+
+// ================== NEWSLETTER COMMAND (FULL PRO) ==================
+
+let LAST_CHANNEL_LINK = "";
+
+// 🔍 Extract channel code
+function extractCode(link) {
+  try {
+    let clean = link.trim().split("?")[0].split("#")[0];
+
+    const match = clean.match(/channel\/([A-Za-z0-9]+)/i);
+    if (match) return match[1];
+
+    if (/^[A-Za-z0-9]+$/.test(clean)) return clean;
+
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+
+// ================== NEWSLETTER COMMAND (PRO + BUTTONS) ==================
+
+function extractCode(link) {
+  try {
+    let clean = link.trim().split("?")[0].split("#")[0];
+
+    const match = clean.match(/channel\/([A-Za-z0-9]+)/i);
+    if (match) return match[1];
+
+    if (/^[A-Za-z0-9]+$/.test(clean)) return clean;
+
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+gmd(
+  {
+    pattern: "nl",
+    category: "owner",
+    react: "📰",
+    description: "Get WhatsApp channel info",
+  },
+  async (from, Gifted, conText) => {
+    const { reply, react, body, botName, botFooter } = conText;
+
+    try {
+      let text = body.replace(".nl", "").trim();
+
+      if (!text) {
+        return reply("❌ Example:\n.nl https://whatsapp.com/channel/xxxx");
+      }
+
+      const code = extractCode(text);
+
+      if (!code) {
+        return reply("❌ Invalid channel link");
+      }
+
+      await react("⏳");
+
+      const meta = await Gifted.newsletterMetadata("invite", code);
+
+      if (!meta) {
+        return reply("❌ Channel not found");
+      }
+
+      const channelLink = `https://whatsapp.com/channel/${code}`;
+
+      // 🧠 CLEAN TEXT (ONLY NAME + ID)
+      let msg = `╭══〘📰 NEWSLETTER INFO〙═⊷\n\n`;
+      msg += `🆔 *ID:* ${meta.id || "N/A"}\n`;
+      msg += `\n╰━━━━━━━━━━━━━━━⬣`;
+
+      await react("✅");
+
+      // 🚀 BUTTON MESSAGE (ONLY COPY)
+      await sendButtons(Gifted, from, {
+        title: `${botName || "BOT"} *NEWSLETTER INFO*`,
+        text: msg,
+        footer: ${botFooter} || "Powered by anonymous user",
+
+        buttons: [
+          {
+            name: "cta_copy",
+            buttonParamsJson: JSON.stringify({
+              display_text: "📋 Copy Channel ID",
+              copy_code: meta.id || code,
+            }),
+          },
+          {
+            name: "cta_copy",
+            buttonParamsJson: JSON.stringify({
+              display_text: "🔗 Copy Link",
+              copy_code: channelLink,
+            }),
+          },
+        ],
+      });
+
+    } catch (err) {
+      console.error(err);
+      await react("❌");
+
+      if (err.message?.includes("newsletterMetadata")) {
+        return reply("❌ Update Baileys (newsletter not supported)");
+      }
+
+      reply("❌ Failed to fetch channel info");
     }
   }
 );
