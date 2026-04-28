@@ -616,104 +616,71 @@ async function getAIResponse(query) {
     }
 }
 
-const processedMessages = new Set();
-const userCooldown = new Map();
-
 function GiftedChatBot(Gifted, chatBot, chatBotMode, createContext, createContext2, googleTTS) {
+    if (chatBot === 'true' || chatBot === 'audio') {
+        Gifted.ev.on("messages.upsert", async ({ messages }) => {
+            try {
+                const msg = messages[0];
+                if (!msg?.message || msg.key.fromMe) return;
+                
+                const jid = msg.key.remoteJid;
+                const isGroup = jid.endsWith('@g.us');
+                
+                if (chatBotMode === 'groups' && !isGroup) return;
+                if (chatBotMode === 'inbox' && isGroup) return;
+                
+                let text = '';
+                
+                if (msg.message.conversation) {
+                    text = msg.message.conversation;
+                } else if (msg.message.extendedTextMessage?.text) {
+                    text = msg.message.extendedTextMessage.text;
+                } else if (msg.message.imageMessage?.caption) {
+                    text = msg.message.imageMessage.caption;
+                }
 
-    if (chatBot !== 'true' && chatBot !== 'audio') return;
+                if (!text || typeof text !== 'string') return;
 
-    Gifted.ev.on("messages.upsert", async (m) => {
+                const settings = await getAllSettings();
+                const botName = settings.BOT_NAME || '𝐁𝐋𝐀𝐂𝐊 𝐇𝐀𝐓-𝐌𝐃';
+                const aiResponse = await getAIResponse(text);
 
-        if (m.type !== "notify") return;
+                if (chatBot === "true") {
+                    await Gifted.sendMessage(jid, { 
+                        text: String(aiResponse),
+                        ...(await createContext(jid, {
+                            title: `${botName} 𝐂𝐇𝐀𝐓 𝐁𝐎𝐓`,
+                            body: '𝐏𝐨𝐰𝐞𝐫𝐞𝐝 𝐛𝐲 𝑨𝒏𝒐𝒏𝒚𝒎𝒐𝒖𝒔 𝒖𝒔𝒆𝒓🥷'
+                        }))
+                    }, { quoted: msg });
+                }
 
-        try {
-            const msg = m.messages?.[0];
-            if (!msg || !msg.message || msg.key.fromMe) return;
+                if (chatBot === 'audio') {
+                    const ttsText = processForTTS(String(aiResponse));
+                    if (ttsText) {
+                        const audioUrl = googleTTS.getAudioUrl(ttsText, {
+                            lang: "en",
+                            slow: false,
+                            host: "https://translate.google.com",
+                        });
 
-            const msgId = msg.key?.id;
-            const sender = msg.key?.participant || msg.key?.remoteJid;
-
-            // 🚫 duplicate
-            if (processedMessages.has(msgId)) return;
-            processedMessages.add(msgId);
-            setTimeout(() => processedMessages.delete(msgId), 60000);
-
-            // 🚫 cooldown (3s)
-            const now = Date.now();
-            if (userCooldown.has(sender)) {
-                if (now - userCooldown.get(sender) < 3000) return;
+                        await Gifted.sendMessage(jid, {
+                            audio: { url: audioUrl },
+                            mimetype: "audio/mpeg",
+                            ptt: true,
+                            waveform: [1000, 0, 1000, 0, 1000, 0, 1000],
+                            ...(await createContext2(jid, {
+                               title: `${botName} 𝐀𝐔𝐃𝐈𝐎-𝐂𝐇𝐀𝐓 𝐁𝐎𝐓`,
+                               body: '𝐏𝐨𝐰𝐞𝐫𝐞𝐝 𝐛𝐲 𝑨𝒏𝒐𝒏𝒚𝒎𝒐𝒖𝒔 𝒖𝒔𝒆𝒓🥷'
+                            }))
+                        }, { quoted: msg });
+                    }
+                }
+            } catch (error) {
+                console.error("Message processing error:", error);
             }
-            userCooldown.set(sender, now);
-
-            const jid = msg.key.remoteJid;
-            if (!jid) return;
-
-            const isGroup = jid.endsWith('@g.us');
-
-            if (chatBotMode === 'groups' && !isGroup) return;
-            if (chatBotMode === 'inbox' && isGroup) return;
-
-            const mmsg = msg.message;
-
-            let text =
-                mmsg.conversation ||
-                mmsg.extendedTextMessage?.text ||
-                mmsg.imageMessage?.caption ||
-                mmsg.videoMessage?.caption ||
-                '';
-
-            if (!text || typeof text !== 'string') return;
-
-            // 🚫 ignore commands
-            if (text.startsWith('.') || text.startsWith('!')) return;
-
-            // 🚫 ignore short spam
-            if (text.length < 2) return;
-
-            const settings = await getAllSettings().catch(() => ({}));
-            const botName = settings.BOT_NAME || '𝐁𝐋𝐀𝐂𝐊 𝐇𝐀𝐓-𝐌𝐃';
-
-            const aiResponse = await getAIResponse(text);
-
-            // 📩 TEXT
-            if (chatBot === "true") {
-                await Gifted.sendMessage(jid, {
-                    text: String(aiResponse),
-                    ...(await createContext(jid, {
-                        title: `${botName} 𝐂𝐇𝐀𝐓 𝐁𝐎𝐓`,
-                        body: '𝐏𝐨𝐰𝐞𝐫𝐞𝐝 𝐛𝐲 𝑨𝒏𝒐𝒏𝒚𝒎𝒖𝒔 𝒖𝒔𝒆𝒓🥷'
-                    }))
-                }, { quoted: msg });
-            }
-
-            // 🔊 AUDIO
-            if (chatBot === 'audio') {
-                const ttsText = processForTTS(String(aiResponse));
-                if (!ttsText) return;
-
-                const audioUrl = googleTTS.getAudioUrl(ttsText, {
-                    lang: "en",
-                    slow: false,
-                    host: "https://translate.google.com",
-                });
-
-                await Gifted.sendMessage(jid, {
-                    audio: { url: audioUrl },
-                    mimetype: "audio/mpeg",
-                    ptt: true,
-                    waveform: [100, 0, 100, 0, 100, 0, 100],
-                    ...(await createContext2(jid, {
-                        title: `${botName} 𝐀𝐔𝐃𝐈𝐎-𝐂𝐇𝐀𝐓 𝐁𝐎𝐓`,
-                        body: '𝐏𝐨𝐰𝐞𝐫𝐞𝐝 𝐛𝐲 𝑨𝒏𝒐𝒏𝒚𝒎𝒐𝒖𝒔 𝒖𝒔𝒆𝒓🥷'
-                    }))
-                }, { quoted: msg });
-            }
-
-        } catch (error) {
-            console.error("Message processing error:", error);
-        }
-    });
+        });
+    }
 }
 
 

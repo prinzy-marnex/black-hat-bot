@@ -81,10 +81,10 @@ const createContext = async (userJid, options = {}) => {
         (await getSetting("BOT_PIC")) ||
         "https://www.image2url.com/r2/default/images/1776338825845-caa56d77-b8dd-46d7-8380-753c6519a578.jpg";
     const newsletterJid =
-        (await getSetting("NEWSLETTER_JID")) || "120363422524788798@newsletter";
+        (await getSetting("NEWSLETTER_JID")) || "70515360313473@newsletter";
     const newsletterUrl =
         (await getSetting("NEWSLETTER_URL")) ||
-        "https://whatsapp.com/channel/0029Vb73SRl1CYoLWtyr4u1X";
+        "https://whatsapp.com/channel/0029VbD7IqH3bbUxd7hQXV3h";
 
     return {
         contextInfo: {
@@ -119,7 +119,7 @@ const createContext2 = async (userJid, options = {}) => {
         (await getSetting("BOT_PIC")) ||
         "https://www.image2url.com/r2/default/images/1776338825845-caa56d77-b8dd-46d7-8380-753c6519a578.jpg";
     const newsletterJid =
-        (await getSetting("NEWSLETTER_JID")) || "120363422524788798@newsletter";
+        (await getSetting("NEWSLETTER_JID")) || "70515360313473@newsletter";
 
     return {
         contextInfo: {
@@ -133,7 +133,7 @@ const createContext2 = async (userJid, options = {}) => {
             },
             externalAdReply: {
                 title: options.title || botName,
-                body: options.body || "Powered by 𝑨𝒏𝒐𝒏𝒚𝒎𝒐𝒖𝒔 𝒖𝒔𝒆𝒓🥷",
+                body: options.body || "Powered by 𝑴𝒂𝒓𝒍𝒐𝒏 𝑴𝒂𝒓𝒔𝒉𝒎𝒆𝒍𝒍𝒐🥷",
                 thumbnailUrl: botPic,
                 mediaType: 1,
                 showAdAttribution: true,
