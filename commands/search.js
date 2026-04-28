@@ -662,7 +662,7 @@ gmd(
 
           const processedSticker = await gmdSticker(stickerBuffer, {
             pack: packName || "𝐁𝐋𝐀𝐂𝐊 𝐇𝐀𝐓 𝐌𝐃",
-            author: packAuthor || "CLEVER-TECH",
+            author: packAuthor || "MARSH-MELLO",
             type: StickerTypes.FULL,
             categories: ["🤩", "🎉"],
             quality: 75,

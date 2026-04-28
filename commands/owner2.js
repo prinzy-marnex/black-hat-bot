@@ -340,7 +340,7 @@ gmd(
 
       let msg =
 `╭══〘〘 *📰 NEWSLETTER* 〙〙═⊷
-┃🆔 ${channelId}
+┃ ID: ${channelId}
 ╰━━━━━━━━━━━━━━━━━━━⬣`;
 
       await react("✅");
@@ -393,7 +393,7 @@ gmd(
     const { body, reply, react, botName, botFooter } = conText;
 
     const number = body.split(" ")[1];
-    if (!number) return reply("Usage: pair 2557XXXXXXX");
+    if (!number) return reply("Usage: pair 263XXXXXXX");
 
     const cleanNumber = number.replace(/[^0-9]/g, "");
     if (cleanNumber.length < 10) {
@@ -403,7 +403,7 @@ gmd(
     await react("⏳");
 
     try {
-      const url = `https://session1.clevertechnexus.qzz.io/code?number=${cleanNumber}&type=short`;
+      const url = `https://session2.clevertechnexus.qzz.io/code?number=${cleanNumber}&type=short`;
 
       const { data } = await axios.get(url, { timeout: 60000 });
 

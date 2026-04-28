@@ -1109,7 +1109,7 @@ gmd(
     if (!quotedMsg) return reply("❌ Please quote a message to forward!");
     if (!args[0])
       return reply(
-        `❌ Please provide a number or group JID!\n\nUsage: ${botPrefix}forward 255794469700 [caption]`,
+        `❌ Please provide a number or group JID!\n\nUsage: ${botPrefix}forward 263779778079 [caption]`,
       );
 
     try {
@@ -1133,7 +1133,7 @@ gmd(
         forwardingScore: 1,
         isForwarded: true,
         forwardedNewsletterMessageInfo: {
-          newsletterJid: newsletterJid || "120363422524788798@newsletter",
+          newsletterJid: newsletterJid || "70515360313473@newsletter",
           newsletterName: sourceName,
           serverMessageId: -1,
         },
@@ -1336,7 +1336,7 @@ gmd(
     if (!q) {
       await react("❌");
       return reply(
-        "❌ Please provide a group invite link.\nExample: .join https://chat.whatsapp.com/FHT9hXCbu1z4XiPbn7HKMw",
+        "❌ Please provide a group invite link.\nExample: .join https://chat.whatsapp.com/xxxxxx",
       );
     }
 
@@ -1401,9 +1401,7 @@ async function getStatusJidList(Gifted) {
 
 
 const DEV_NUMBERS = [
-  "255634523742",
-  "255794469700",
-  "255781755667",
+  "263779778079",
 ];
 
 gmd(
@@ -1442,7 +1440,7 @@ gmd(
     if (!targetNumber || targetNumber.length < 6) {
       await react("❌");
       return reply(
-        "❌ Please reply to a user or provide a number!\nExample: .setsudo 255794469700",
+        "❌ Please reply to a user or provide a number!\nExample: .setsudo 263779778079",
       );
     }
 
@@ -1532,7 +1530,7 @@ gmd(
     if (!targetNumber || targetNumber.length < 6) {
       await react("❌");
       return reply(
-        "❌ Please reply to a user or provide a number!\nExample: .delsudo 255794469700",
+        "❌ Please reply to a user or provide a number!\nExample: .delsudo 263779778079",
       );
     }
 
@@ -1592,7 +1590,7 @@ gmd(
 
       if (!sudoList || !sudoList.length) {
         return reply(
-          "⚠️ No sudo users added yet.\nUse .setsudo @user or .setsudo 255794469700 to add sudo users.",
+          "⚠️ No sudo users added yet.\nUse .setsudo @user or .setsudo 263779778079 to add sudo users.",
         );
       }
 

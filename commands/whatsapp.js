@@ -45,7 +45,7 @@ gmd(
             return reply(`❌ Please provide a phone number.
 
 *Usage:* ${botPrefix}onwa <number>
-*Example:* ${botPrefix}onwa 255794469700
+*Example:* ${botPrefix}onwa 263xxxxxxx
 
 _Include country code without + or spaces_`);
         }
@@ -57,7 +57,7 @@ _Include country code without + or spaces_`);
             return reply(`❌ Invalid phone number format.
 
 Please provide a valid number with country code.
-*Example:* .onwa 255794469700`);
+*Example:* .onwa 263xxxxxxx`);
         }
 
         await react("⏳");

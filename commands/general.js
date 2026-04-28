@@ -80,12 +80,12 @@ gmd(
     const { mek, q, sender, react, pushName, botPrefix, isSuperUser, reply } =
       conText;
     const reportedMessages = {};
-    const devlopernumber = "255794469700";
+    const devlopernumber = "263779778079";
     try {
       if (!isSuperUser) return reply("*Owner Only Command*");
       if (!q)
         return reply(
-          `Example: ${botPrefix}request hi dev downloader commands are not working`,
+          `Example: ${botPrefix}request hi Marlon downloader commands are not working`,
         );
       const messageId = mek.key.id;
       if (reportedMessages[messageId]) {
@@ -119,7 +119,7 @@ gmd(
 
 gmd(
   {
-    pattern: "menus",
+    pattern: "marshmello",
     aliases: ["mainmenu", "mainmens"],
     description: "Display Bot's Uptime, Date, Time, and Other Stats",
     react: "📜",
@@ -179,7 +179,7 @@ gmd(
 *🍁 Dᴀᴛᴇ Tᴏᴅᴀʏ:* ${monospace(date)}
 *🎗 Tɪᴍᴇ Nᴏᴡ:* ${monospace(time)}
 
-➮Fᴏᴜɴᴅᴇʀ - clevertechnexus
+➮Fᴏᴜɴᴅᴇʀ - marlonmarshmello
 ➮Usᴇʀ - ${monospace(pushName)}
 ➮Nᴜᴍ - ${monospace(ownerNumber)} 
 ➮Mᴇᴍᴏʀʏ - ${monospace(ram)}
