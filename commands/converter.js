@@ -58,7 +58,7 @@ gmd({
 
                 const stickerBuffer = await gmdSticker(mediaFile, {
                     pack: packName || "𝐁𝐋𝐀𝐂𝐊 𝐇𝐀𝐓 𝐌𝐃", 
-                    author: packAuthor || "CLEVER-TECH",
+                    author: packAuthor || "MELLO-TECH",
                     type: q.includes("--crop") || q.includes("-c") ? StickerTypes.CROPPED : StickerTypes.FULL,
                     categories: ["🤩", "🎉"],
                     id: "12345",
@@ -79,7 +79,7 @@ gmd({
 
                 const newStickerBuffer = await gmdSticker(stickerFile, {
                     pack: packName || "𝐁𝐋𝐀𝐂𝐊 𝐇𝐀𝐓 𝐌𝐃", 
-                    author: packAuthor || "CLEVER-TECH",
+                    author: packAuthor || "MELLO-TECH",
                     type: q.includes("--crop") || q.includes("-c") ? StickerTypes.CROPPED : StickerTypes.FULL,
                     categories: ["🤩", "🎉"],
                     id: "12345",

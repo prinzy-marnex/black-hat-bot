@@ -701,7 +701,7 @@ gmd(
 
 gmd(
     {
-        pattern: "ytv",
+        pattern: "ytmp4",
         category: "downloader",
         react: "📽",
         description: "Download Video from Youtube",

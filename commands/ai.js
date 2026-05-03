@@ -25,9 +25,9 @@ async function queryAI(endpoint, query, conText) {
 
 gmd(
   {
-    pattern: "blackhatai",
+    pattern: "prinzyai",
     aliases: ["ai"],
-    description: "Chat with blackhatai AI assistant",
+    description: "Chat with prinzyai AI assistant",
     category: "Ai",
     filename: __filename,
   },
@@ -63,9 +63,9 @@ gmd(
 
 gmd(
   {
-    pattern: "gpt4",
+    pattern: "mello",
     aliases: ["chatgpt4"],
-    description: "Chat with GPT-4 model",
+    description: "Chat with Marshmello AI",
     category: "Ai",
     filename: __filename,
   },
