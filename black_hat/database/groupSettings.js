@@ -31,10 +31,10 @@ const GroupSettingsDB = DATABASE.define(
 );
 
 const GROUP_SETTING_DEFAULTS = {
-    WELCOME_MESSAGE: "false",
-    GOODBYE_MESSAGE: "false",
+    WELCOME_MESSAGE: "true",
+    GOODBYE_MESSAGE: "true",
     GROUP_EVENTS: "false",
-    ANTILINK: "false",
+    ANTILINK: "true",
     ANTILINK_WARN_COUNT: "3",
     WELCOME_MESSAGE_TEXT: "",
     GOODBYE_MESSAGE_TEXT: "",
