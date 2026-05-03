@@ -1,7 +1,7 @@
 {
   "name": "black-hat-md",
   "version": "5.0.0",
-  "description": "black-hat-md, a Multi Device Whatsapp Bot built by Marshmello Tech to Enhance Whatsapp Communication Experience",
+  "description": "black-hat-md, a Multi Device Whatsapp Bot built by Marshmello to Enhance Whatsapp Communication Experience",
   "logo": "https://files.catbox.moe/wfh6gr.jpg",
   "keywords": ["black-hat-md", "gifted-baileys", "gifted-btns", "gifted-api"],
   "success_url": "/",
@@ -20,7 +20,7 @@
     "TIME_ZONE": {
       "description": "Your timezone e.g. Africa/Nairobi, America/New_York, Asia/Kolkata",
       "required": true,
-      "value": "Africa/Nairobi"
+      "value": "Africa/Harare"
     },
     "AUTO_LIKE_STATUS": {
       "description": "Auto-like WhatsApp statuses. Set true or false.",

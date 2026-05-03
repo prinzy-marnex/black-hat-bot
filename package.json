@@ -1,7 +1,7 @@
 {
   "name": "black-hat-md",
   "version": "5.0.0",
-  "description": "black-hat-md, a Multi Device Whatsapp Bot built by Marshmello Tech to Enhance Whatsapp Communication Experience",
+  "description": "black-hat-md, a Multi Device Whatsapp Bot built by Marshmello to Enhance Whatsapp Communication Experience",
   "main": "./index.js",
   "type": "commonjs",
   "scripts": {
@@ -12,12 +12,12 @@
     "stash": "git stash && git stash drop"
   },
   "keywords": [
-    "clevertechnexus",
+    "prinzymarnex",
     "black-hat-md",
     "whatsapp-bot",
-    "clevertechnexus"
+    "prinzymarnex"
   ],
-  "author": "clevertechnexus",
+  "author": "prinzymarnex",
   "license": "MIT",
   "dependencies": {
     "@ffmpeg-installer/ffmpeg": "*",
@@ -61,10 +61,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/clevertechnexus2/black-hat-md.git"
+    "url": "git+https://github.com/prinzy-marnex/black-hat-bot.git"
   },
   "bugs": {
-    "url": "https://github.com/clevertechnexus2/black-hat-md/issues"
+    "url": "https://github.com/prinzy-marnex/black-hat-bot/issues"
   },
-  "homepage": "https://github.com/clevertechnexus2/black-hat-md#readme"
+  "homepage": "https://github.com/prinzy-marnex/black-hat-bot#readme"
 }
